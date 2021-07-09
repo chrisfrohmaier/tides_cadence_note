@@ -1,0 +1,10 @@
+# This is an example credentials file
+# the username and password here will fail!
+# (unless you are Roger Federer with a local tides database)
+
+tidesdb:
+    username: RFederer
+    password: 20GrandSlams
+    host: localhost
+    port: 5432
+    db_name: tides
