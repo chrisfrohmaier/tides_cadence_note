@@ -26,3 +26,7 @@ The following modules are required:
 `sqlalchemy >=1.1`
 
 `psycopg2 >=2.7`
+
+## Password Protection
+
+Some of the files require us to connect to a database that might be password protected. The files hosted on the remote Southampton postgres server certainly require login credentials. I have created a dummy `dbLogin.yml` file as an example of a file you need to modify with your own personal credentials. This will work if you are using local or remote hosted sql databases.
