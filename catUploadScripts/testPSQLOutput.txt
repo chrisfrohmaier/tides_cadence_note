@@ -1,0 +1,1 @@
+psql -c "COPY test_wfd_sn_head from '/Users/cfrohmaier/Documents/TiDES/lsstFellow/Jan2021/TiDES_LSST/MV_LSSTWFD_CART/LSSTWFD_NONIaMODEL0-0001_HEAD.csv' DELIMITER ',' CSV HEADER;"
