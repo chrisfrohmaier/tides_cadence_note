@@ -22,3 +22,7 @@ The following modules are required:
 `numpy >= 1.19.5`
 
 `pandas >= 0.2`
+
+`sqlalchemy >=1.1`
+
+`psycopg2 >=2.7`
