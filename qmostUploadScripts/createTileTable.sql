@@ -35,3 +35,6 @@ CREATE TABLE qmost_tiles (
     fh_extra_hr real,
     weather_factor real
 );
+
+CREATE INDEX qmost_tiles_vid_monyear_idx ON qmost_tiles(vid, monyear);
+CREATE INDEX ON (q3c_ang2ipix(ra, dec));
