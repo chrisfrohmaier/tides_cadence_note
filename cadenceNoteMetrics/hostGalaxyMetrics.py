@@ -99,7 +99,7 @@ plotnz(specSN, output_dir)
 
 f.close()
 
-if argparse.fitres:
+if args.fitres:
    fitres = args.fitres
    snfit = pd.read_csv(fitres, delimiter='\s+', comment='#')
    snfit['CID'] = snfit['CID'].astype(int)
