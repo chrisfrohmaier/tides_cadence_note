@@ -69,6 +69,8 @@ if 'HOSTGAL_sSFR_ERR' not in df_head.columns:
     df_head['HOSTGAL_sSFR_ERR'] = -99
 
 ##Rick also changed the PHOT files to
+if 'FIELD' not in df_phots.columns:
+    df_phots['FIELD'] = ''
 if 'PHOTFLAG' not in df_phots.columns:
     df_phots['PHOTFLAG'] = 0
 if 'PHOTPROB' not in df_phots.columns:
