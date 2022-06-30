@@ -59,6 +59,27 @@ df_phots = phot1.to_pandas()#pd.DataFrame(phots[1].data)
 if 'CCDNUM' not in df_head.columns:
     df_head['CCDNUM'] = 0
 
+##Update 30 June 2022
+##Rick made come more changes
+if 'SUBSURVEY' not in df_head.columns:
+    df_head['SUBSURVEY'] = ''
+if 'HOSTGAL_sSFR' not in df_head.columns:
+    df_head['HOSTGAL_sSFR'] = -99
+if 'HOSTGAL_sSFR_ERR' not in df_head.columns:
+    df_head['HOSTGAL_sSFR_ERR'] = -99
+
+##Rick also changed the PHOT files to
+if 'PHOTFLAG' not in df_phots.columns:
+    df_phots['PHOTFLAG'] = 0
+if 'PHOTPROB' not in df_phots.columns:
+    df_phots['PHOTPROB'] = -9
+if 'PSF_SIG1' not in df_phots.columns:
+    df_phots['PSF_SIG1'] = -99
+if 'SKY_SIG' not in df_phots.columns:
+    df_phots['SKY_SIG'] = -99
+if 'ZEROPT' not in df_phots.columns:
+    df_phots['ZEROPT'] = -99
+
 #!!! Ra, DEC scatter put that in now
 def radecScatter():
     '''We need this function because SNANA only creates 50,000
@@ -75,6 +96,9 @@ def radecScatter():
     yDec = r * np.sin(a)
     ## The returned coordinates will be the amount I shift the SN and Galaxy Ra, DEC
     return [xRa, yDec]
+
+
+
 
 ##Firstly, we dump the fin files
 df_head['SUBSURVEY'] = df_head['SUBSURVEY'].str.strip()
