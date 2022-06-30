@@ -82,7 +82,7 @@ df_head['SNID']=df_head['SNID'].astype(int)
 df_head.replace('NULL            ', "",inplace=True)
 df_head.replace(' ', "",inplace=True)
 
-if headin.split('_')[0] == 'LSSTWFD':
+if 'LSSTWFD' in headin.split('_')[0]:
     #print('WFD Field')
     scatt = np.array([radecScatter() for x in range(len(df_head))])
     df_head['RA'] = df_head['RA'] + scatt[:,0]
