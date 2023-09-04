@@ -26,7 +26,7 @@ monyear = args.monyear
 credentials_file = args.creds
 
 ##Connect to database
-conf = yaml.load(open(credentials_file))
+conf = yaml.load(open(credentials_file), Loader=yaml.SafeLoader)
 username = conf['tidesdb']['username']
 pwd = conf['tidesdb']['password']
 host = conf['tidesdb']['host']
