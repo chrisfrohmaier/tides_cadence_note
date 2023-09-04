@@ -20,7 +20,7 @@ cols = ['SUBSURVEY','SNID','IAUC','FAKE','RA','DEC','PIXSIZE','NXPIX','NYPIX','C
         'SIM_TYPE_INDEX','SIM_TYPE_NAME','SIM_TEMPLATE_INDEX','SIM_LIBID','SIM_NGEN_LIBID',\
         'SIM_NOBS_UNDEFINED','SIM_SEARCHEFF_MASK','SIM_REDSHIFT_HELIO','SIM_REDSHIFT_CMB',\
         'SIM_REDSHIFT_HOST','SIM_REDSHIFT_FLAG','SIM_VPEC','SIM_DLMU','SIM_LENSDMU','SIM_RA',\
-        'SIM_DEC','SIM_MWEBV','SIM_PEAKMJD','SIM_MAGSMEAR_COH','SIM_AV','SIM_RV','SIM_PEAKMAG_u',\
+        'SIM_DEC','SIM_MWEBV','SIM_PEAKMJD','SIM_MJD_EXPLODE','SIM_MAGSMEAR_COH','SIM_AV','SIM_RV','SIM_PEAKMAG_u',\
         'SIM_PEAKMAG_g','SIM_PEAKMAG_r','SIM_PEAKMAG_i','SIM_PEAKMAG_z','SIM_PEAKMAG_Y',\
         'SIM_EXPOSURE_u','SIM_EXPOSURE_g','SIM_EXPOSURE_r','SIM_EXPOSURE_i','SIM_EXPOSURE_z',\
         'SIM_EXPOSURE_Y','SIM_GALFRAC_u','SIM_GALFRAC_g','SIM_GALFRAC_r','SIM_GALFRAC_i',\
@@ -68,6 +68,10 @@ if 'HOSTGAL_sSFR' not in df_head.columns:
 if 'HOSTGAL_sSFR_ERR' not in df_head.columns:
     df_head['HOSTGAL_sSFR_ERR'] = -99
 
+### Update 4th September 2023 because Rick made even more changes
+if 'SIM_MJD_EXPLODE' not in df_head.columns:
+    df_head['SIM_MJD_EXPLODE'] = -99
+
 ##Rick also changed the PHOT files to
 if 'FIELD' not in df_phots.columns:
     df_phots['FIELD'] = ''
@@ -83,15 +87,20 @@ if 'ZEROPT' not in df_phots.columns:
     df_phots['ZEROPT'] = -99
 
 #!!! Ra, DEC scatter put that in now
-def radecScatter():
+def radecScatter(scatRadius=0.338):
     '''We need this function because SNANA only creates 50,000
-    unique LIBIDs. This means that a modest number of our transients will 
+    unique LIBIDs over an approximate 18,000 sq degree. 
+    This means that a modest number of our transients will 
     have repeated Ra, DEC values. We only need to scatter the RA, DECs by
     0.338 degrees to combat this. It is not as simple as a circular scatter,
     but we can approximate it as one.
+
+    For the DDFs I've used 0.324 - which is similar to the WFDs. But
+    I will just leave it as 0.324 for the code as I don't want to 
+    scatter objects out of the FoV
     '''
     a = np.random.random() * 2 *np.pi #Random angle to scatter in circle
-    r = np.random.random() * 0.338 # Random radius to scatter coordinates
+    r = np.random.random() * scatRadius # Random radius to scatter coordinates
 
     ##Convert back to cartesian
     xRa = r * np.cos(a) #Check angle is in radians (0->2pi) yes
@@ -110,7 +119,16 @@ df_head.replace(' ', "",inplace=True)
 
 if 'LSSTWFD' in headin.split('_')[0]:
     #print('WFD Field')
-    scatt = np.array([radecScatter() for x in range(len(df_head))])
+    scatt = np.array([radecScatter(scatRadius=0.338) for x in range(len(df_head))])
+    df_head['RA'] = df_head['RA'] + scatt[:,0]
+    df_head['DEC'] = df_head['DEC'] + scatt[:,1]
+    df_head['HOSTGAL_RA'] = df_head['HOSTGAL_RA'] + scatt[:,0]
+    df_head['HOSTGAL_DEC'] = df_head['HOSTGAL_DEC'] + scatt[:,1]
+
+## Added of 4th September as even the DDF targets were gettign repeated Ra and Decs
+if 'LSSTDDF' in headin.split('_')[0]:
+    #print('WFD Field')
+    scatt = np.array([radecScatter(scatRadius=0.324) for x in range(len(df_head))])
     df_head['RA'] = df_head['RA'] + scatt[:,0]
     df_head['DEC'] = df_head['DEC'] + scatt[:,1]
     df_head['HOSTGAL_RA'] = df_head['HOSTGAL_RA'] + scatt[:,0]
