@@ -77,6 +77,7 @@ CREATE TABLE :wfdhead (
     sim_dec double precision,
     sim_mwebv real,
     sim_peakmjd real,
+    sim_mjd_explode real,
     sim_magsmear_coh real,
     sim_av real,
     sim_rv real,
